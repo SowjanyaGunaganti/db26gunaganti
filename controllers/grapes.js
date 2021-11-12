@@ -81,10 +81,10 @@ ${JSON.stringify(req.body)}`)
     try { 
         let toUpdate = await grapes.findById( req.params.id) 
         // Do updates of properties 
-        if(req.body.grapes_type)  
+        if(req.body.type)  
                toUpdate.type = req.body.type; 
-        if(req.body.cost) toUpdate.quantity = req.body.quantity; 
-        if(req.body.size) toUpdate.cost = req.body.cost; 
+        if(req.body.quantity) toUpdate.quantity = req.body.quantity; 
+        if(req.body.cost) toUpdate.cost = req.body.cost; 
         let result = await toUpdate.save(); 
         console.log("Sucess " + result) 
         res.send(result) 
