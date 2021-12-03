@@ -2,20 +2,30 @@ extends layout
 
 block content
   h1= title
-  p Hi Im Sowjanya Gunaganti
-  - var results = [{"type":"Black Grapes", "quantity":"5lb","cost":8},{"type":"Green Grapes","quantity":"10lb","cost":5},{"type":"Red Grapes","quantity":"15lb","cost":6}]
-       div(class="container-fluid")
-         div(class="row")
-            each va,ind in results
-              div(class="col-sm-2" onClick=`buy(${ind})`)
-                p #{va.type}
-                p #{va.quantity}
-                p #{va.cost}
-                
-                   
-                 script.
-                     function  buy(it){
+  
+  - let items = results;
+  - let o;
+  script.
+    function buy(x){
+      alert('purchased item ' + x)
+   } 
+  div(class='container-fluid')
+    a(class="btn btn-primary" href="/grapes/create") Create
+    div(class='row m-1')
+    div(class="row row-cols-1 row-cols-sm-4 g-6")
+      each item,index in items
+        - let destination = `dispatch(\"/grapes/update?id=${item._id}\")`
+        - let details = `dispatch(\"/grapes/detail?id=${item._id}\")` 
+      
+        div(class="card text-white bg-dark mb-3" class='col' class='card' class='card-body' class='card-text' onclick='buy('+index+')') Item #{item.grapes_type}(#{item.quantity})is #{item.cost} 
+          <br><br>
+          span(class="btn btn-info", onclick= details) Details
+          <br>
+          a(class="btn btn-danger", href="/grapes/delete/?id="+item._id) Delete
+          <br>
+          button.btn( class="btn-success ml-1", onclick= destination) Update
 
-                        alert(`You purchased item ${it+1}.`)
-
-                     }
+  script.
+    function dispatch(path){
+      window.location.href=path
+    }

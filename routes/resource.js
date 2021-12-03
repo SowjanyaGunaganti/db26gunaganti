@@ -27,5 +27,17 @@ router.get('/grapes/:id', grapes_controller.grapes_detail);
  
 // GET request for list of all grapes items. 
 router.get('/grapes', grapes_controller.grapes_list); 
+
+/* GET detail grapes page */ 
+router.get('/detail', grapes_controller.grapes_view_one_Page); 
+
+/* GET create grapes page */ 
+router.get('/create', grapes_controller.grapes_create_Page);
+
+/* GET create update page */ 
+router.get('/update', grapes_controller.grapes_update_Page); 
+
+/* GET create grapes page */ 
+router.get('/delete', grapes_controller.grapes_delete_Page); 
  
 module.exports = router;

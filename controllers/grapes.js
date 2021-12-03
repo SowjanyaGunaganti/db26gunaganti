@@ -7,7 +7,7 @@ exports.grapes_list = function(req, res) {
  
 // for a specific grapes. 
 exports.grapes_detail = async function(req, res) { 
-    console.log("detail"  + req.params.id) 
+    grapes.log("detail"  + req.params.id) 
     try { 
         result = await grapes.findById( req.params.id) 
         res.send(result) 
@@ -57,7 +57,7 @@ exports.grapes_view_all_Page = async function(req, res) {
 }; 
 // Handle grapes create on POST. 
 exports.grapes_create_post = async function(req, res) { 
-    console.log(req.body) 
+    grapes.log(req.body) 
     let document = new grapes(); 
     // We are looking for a body, since POST does not have query parameters. 
     // Even though bodies can be in many different formats, we will be picky 
@@ -76,7 +76,7 @@ exports.grapes_create_post = async function(req, res) {
     }   
 }; 
 exports.grapes_update_put = async function(req, res) { 
-    console.log(`update on id ${req.params.id} with body 
+    grapes.log(`update on id ${req.params.id} with body 
 ${JSON.stringify(req.body)}`) 
     try { 
         let toUpdate = await grapes.findById( req.params.id) 
@@ -86,7 +86,7 @@ ${JSON.stringify(req.body)}`)
         if(req.body.quantity) toUpdate.quantity = req.body.quantity; 
         if(req.body.cost) toUpdate.cost = req.body.cost; 
         let result = await toUpdate.save(); 
-        console.log("Sucess " + result) 
+        grapes.log("Sucess " + result) 
         res.send(result) 
     } catch (err) { 
         res.status(500) 
@@ -94,3 +94,72 @@ ${JSON.stringify(req.body)}`)
 failed`); 
     } 
 }; 
+
+// Handle grapes delete on DELETE. 
+exports.grapes_delete = async function(req, res) { 
+    console.log("delete "  + req.params.id) 
+    try { 
+        result = await grapes.findByIdAndDelete( req.params.id) 
+        console.log("Removed " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": Error deleting ${err}}`); 
+    } 
+}; 
+
+// Handle a show one view with id specified by query 
+exports.grapes_view_one_Page = async function(req, res) { 
+    console.log("single view for id "  + req.query.id) 
+    try{ 
+        result = await grapes.findById( req.query.id) 
+        res.render('grapesdetail',  
+{ title: 'grapes Detail', toShow: result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
+
+ // Handle building the view for creating a grapes. 
+// No body, no in path parameter, no query. 
+// Does not need to be async 
+exports.grapes_create_Page =  function(req, res) { 
+    console.log("create view") 
+    try{ 
+        res.render('grapescreate', { title: 'grapes Create'}); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
+
+// Handle building the view for updating a grapes. 
+// query provides the id 
+exports.grapes_update_Page =  async function(req, res) { 
+    console.log("update view for item "+req.query.id) 
+    try{ 
+        let result = await grapes.findById(req.query.id) 
+        res.render('grapesupdate', { title: 'grapes Update', toShow: result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
+
+// Handle a delete one view with id from query 
+exports.grapes_delete_Page = async function(req, res) { 
+    console.log("Delete view for id "  + req.query.id) 
+    try{ 
+        result = await grapes.findById(req.query.id) 
+        res.render('grapesdelete', { title: 'grapes Delete', toShow: 
+result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+};

@@ -1,0 +1,22 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let grapesid = toShow._id 
+  - let type = toShow.type 
+  - let quantity = toShow.quantity 
+  - let cost = toShow.cost
+  div 
+    div.row 
+      div(class='grapesAttr mr-3') grapes ID is: 
+      div #{grapesid} 
+    div.row 
+      div(class='grapesAttr mr-3') grapes Type is: 
+      div #{type} 
+    div.row 
+      div(class='grapesAttr mr-3') grapes Size is: 
+      div #{cost} 
+    div.row 
+      div(class='grapesAttr mr-3') grapes Cost is: 
+      div #{quantity} 
